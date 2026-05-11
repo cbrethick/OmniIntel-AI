@@ -3,8 +3,6 @@ Sentiment Analyzer — Fine-tuned RoBERTa for real-time emotion detection
 Detects: POSITIVE, NEGATIVE, NEUTRAL with confidence scores
 Also detects: frustration, urgency, happiness for adaptive responses
 """
-from transformers import pipeline, AutoTokenizer, AutoModelForSequenceClassification
-import torch
 import logging
 from functools import lru_cache
 
