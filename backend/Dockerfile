@@ -8,8 +8,8 @@ RUN apt-get update && apt-get install -y \
     && rm -rf /var/lib/apt/lists/*
 
 COPY requirements.txt .
-RUN pip install --no-cache-dir --upgrade pip setuptools wheel
-RUN pip install --no-cache-dir -r requirements.txt --no-build-isolation
+RUN pip install --no-cache-dir --upgrade pip setuptools==69.5.1 wheel
+RUN pip install --no-cache-dir -r requirements.txt
 
 COPY . .
 
