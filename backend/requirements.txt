@@ -1,0 +1,46 @@
+fastapi==0.111.0
+uvicorn[standard]==0.29.0
+python-dotenv==1.0.1
+pydantic==2.7.1
+pydantic-settings==2.2.1
+
+# LangChain & LangGraph
+langchain==0.2.1
+langchain-openai==0.1.7
+langchain-google-genai==1.0.5
+langchain-community==0.2.1
+langgraph==0.0.69
+
+# Vector DB & Embeddings
+chromadb==0.5.0
+faiss-cpu==1.8.0
+sentence-transformers==3.0.0
+
+# Sentiment Analysis
+transformers==4.41.1
+torch==2.3.0
+numpy==1.26.4
+
+# Voice / Whisper
+openai-whisper==20231117
+soundfile==0.12.1
+librosa==0.10.2
+
+# Database
+sqlalchemy==2.0.30
+asyncpg==0.29.0
+alembic==1.13.1
+redis==5.0.4
+
+# Auth
+python-jose[cryptography]==3.3.0
+passlib[bcrypt]==1.7.4
+python-multipart==0.0.9
+
+# HTTP
+httpx==0.27.0
+websockets==12.0
+
+# Utils
+python-json-logger==2.0.7
+tenacity==8.3.0

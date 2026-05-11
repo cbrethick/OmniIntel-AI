@@ -1,0 +1,98 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --brand: #5c6fff;
+  --brand-glow: rgba(92, 111, 255, 0.4);
+  --accent: #10b981;
+  --surface: #1c1e32;
+  --surface-2: #151728;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: #0a0b14;
+  color: #e8eaf6;
+  font-family: var(--font-body), sans-serif;
+}
+
+/* Scrollbar */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: #0a0b14; }
+::-webkit-scrollbar-thumb { background: #2832b8; border-radius: 3px; }
+
+/* Glass morphism card */
+.glass {
+  background: rgba(28, 30, 50, 0.6);
+  backdrop-filter: blur(16px);
+  border: 1px solid rgba(92, 111, 255, 0.15);
+  border-radius: 16px;
+}
+
+/* Glow button */
+.btn-glow {
+  background: linear-gradient(135deg, #5c6fff, #3d4ef7);
+  box-shadow: 0 0 20px rgba(92, 111, 255, 0.4);
+  transition: all 0.3s ease;
+}
+.btn-glow:hover {
+  box-shadow: 0 0 35px rgba(92, 111, 255, 0.7);
+  transform: translateY(-1px);
+}
+
+/* Grid background */
+.grid-bg {
+  background-image: 
+    linear-gradient(rgba(92,111,255,0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(92,111,255,0.04) 1px, transparent 1px);
+  background-size: 40px 40px;
+}
+
+/* Typing animation */
+.typing-dot {
+  width: 8px; height: 8px;
+  background: #5c6fff;
+  border-radius: 50%;
+  animation: typingBounce 1.2s ease infinite;
+}
+.typing-dot:nth-child(2) { animation-delay: 0.2s; }
+.typing-dot:nth-child(3) { animation-delay: 0.4s; }
+
+@keyframes typingBounce {
+  0%, 60%, 100% { transform: translateY(0); opacity: 0.4; }
+  30% { transform: translateY(-8px); opacity: 1; }
+}
+
+/* Sentiment badge glow */
+.sentiment-positive { color: #34d399; text-shadow: 0 0 10px rgba(52,211,153,0.4); }
+.sentiment-negative { color: #f87171; text-shadow: 0 0 10px rgba(248,113,113,0.4); }
+.sentiment-neutral { color: #94a3b8; }
+
+/* Animated gradient text */
+.gradient-text {
+  background: linear-gradient(135deg, #5c6fff 0%, #10b981 50%, #5c6fff 100%);
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: gradientShift 4s linear infinite;
+}
+
+@keyframes gradientShift {
+  0% { background-position: 0% center; }
+  100% { background-position: 200% center; }
+}
+
+/* Chat bubble */
+.chat-user {
+  background: linear-gradient(135deg, #3d4ef7, #5c6fff);
+  border-radius: 18px 18px 4px 18px;
+}
+.chat-bot {
+  background: rgba(28, 30, 50, 0.9);
+  border: 1px solid rgba(92, 111, 255, 0.2);
+  border-radius: 18px 18px 18px 4px;
+}
