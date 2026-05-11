@@ -18,24 +18,10 @@ class SentimentAnalyzer:
         self._load_models()
 
     def _load_models(self):
-        """Load models lazily"""
-        try:
-            # Primary sentiment model
-            self._sentiment_pipeline = pipeline(
-                "sentiment-analysis",
-                model="cardiffnlp/twitter-roberta-base-sentiment-latest",
-                device=0 if torch.cuda.is_available() else -1,
-            )
-            # Emotion detection
-            self._emotion_pipeline = pipeline(
-                "text-classification",
-                model="j-hartmann/emotion-english-distilroberta-base",
-                device=0 if torch.cuda.is_available() else -1,
-            )
-            logger.info("Sentiment models loaded successfully")
-        except Exception as e:
-            logger.warning(f"Could not load transformer models: {e}. Using fallback.")
-            self._sentiment_pipeline = None
+        """No local models to save RAM on Render Free Tier"""
+        self._sentiment_pipeline = None
+        self._emotion_pipeline = None
+        logger.info("Using lightweight sentiment analysis")
 
     async def analyze(self, text: str) -> dict:
         """

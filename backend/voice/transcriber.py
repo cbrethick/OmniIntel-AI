@@ -2,7 +2,7 @@
 Voice Handler — OpenAI Whisper for speech-to-text
 Supports MP3, WAV, WebM audio formats
 """
-import whisper
+from openai import OpenAI
 import tempfile
 import os
 import logging
@@ -12,13 +12,14 @@ logger = logging.getLogger(__name__)
 
 
 class VoiceTranscriber:
-    def __init__(self, model_size: str = "base"):
-        logger.info(f"Loading Whisper model: {model_size}")
-        self.model = whisper.load_model(model_size)
-        logger.info("Whisper model loaded")
+    def __init__(self, model_size: str = "whisper-1"):
+        logger.info(f"Initializing OpenAI Whisper API client")
+        self.client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
+        self.model_name = "whisper-1"
+        logger.info("OpenAI Whisper API client ready")
 
-    async def transcribe(self, audio_bytes: bytes, file_extension: str = "webm") -> dict:
-        """Transcribe audio bytes to text"""
+    async def transcribe(self, audio_bytes: bytes, file_extension: str = "m4a") -> dict:
+        """Transcribe audio bytes to text using OpenAI API"""
         with tempfile.NamedTemporaryFile(
             suffix=f".{file_extension}", delete=False
         ) as tmp:
@@ -26,29 +27,22 @@ class VoiceTranscriber:
             tmp_path = tmp.name
 
         try:
-            result = self.model.transcribe(
-                tmp_path,
-                language="en",
-                task="transcribe",
-                fp16=False,
-            )
+            with open(tmp_path, "rb") as audio_file:
+                transcript = self.client.audio.transcriptions.create(
+                    model=self.model_name, 
+                    file=audio_file,
+                    response_format="json"
+                )
+            
             return {
-                "text": result["text"].strip(),
-                "language": result.get("language", "en"),
-                "segments": result.get("segments", []),
-                "confidence": self._estimate_confidence(result),
+                "text": transcript.text.strip(),
+                "language": "en",
+                "confidence": 0.99,
             }
         except Exception as e:
             logger.error(f"Transcription error: {e}")
             return {"text": "", "error": str(e)}
         finally:
-            os.unlink(tmp_path)
+            if os.path.exists(tmp_path):
+                os.unlink(tmp_path)
 
-    def _estimate_confidence(self, result: dict) -> float:
-        segments = result.get("segments", [])
-        if not segments:
-            return 0.8
-        avg_logprob = sum(s.get("avg_logprob", -1) for s in segments) / len(segments)
-        # Convert log probability to 0-1 confidence
-        import math
-        return round(min(1.0, max(0.0, math.exp(avg_logprob))), 4)

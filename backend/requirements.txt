@@ -11,20 +11,8 @@ langchain-google-genai==1.0.5
 langchain-community==0.2.1
 langgraph==0.0.69
 
-# Vector DB & Embeddings
+# Vector DB (Lightweight)
 chromadb==0.5.0
-faiss-cpu==1.8.0
-sentence-transformers==3.0.0
-
-# Sentiment Analysis
-transformers==4.41.1
-torch==2.3.0
-numpy==1.26.4
-
-# Voice / Whisper
-openai-whisper
-soundfile==0.12.1
-librosa==0.10.2
 
 # Database
 sqlalchemy==2.0.30
@@ -44,3 +32,4 @@ websockets==12.0
 # Utils
 python-json-logger==2.0.7
 tenacity==8.3.0
+numpy==1.26.4

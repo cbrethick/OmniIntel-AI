@@ -4,7 +4,7 @@ Retrieves relevant documents for context-aware responses
 """
 import chromadb
 from chromadb.utils import embedding_functions
-from sentence_transformers import SentenceTransformer
+# from sentence_transformers import SentenceTransformer
 import logging
 import os
 
@@ -14,7 +14,10 @@ logger = logging.getLogger(__name__)
 class RAGRetriever:
     def __init__(self, db_path: str = "./chroma_db"):
         self.db_path = db_path
-        self.model = SentenceTransformer("all-MiniLM-L6-v2")
+        self.embedding_function = embedding_functions.OpenAIEmbeddingFunction(
+            api_key=os.getenv("OPENAI_API_KEY"),
+            model_name="text-embedding-3-small"
+        )
         self.client = chromadb.PersistentClient(path=db_path)
         self._init_collections()
 
@@ -24,6 +27,7 @@ class RAGRetriever:
         for domain in ["sales", "support", "care", "general"]:
             self.collections[domain] = self.client.get_or_create_collection(
                 name=f"omnibot_{domain}",
+                embedding_function=self.embedding_function,
                 metadata={"hnsw:space": "cosine"},
             )
         logger.info("RAG collections initialized")
